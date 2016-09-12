@@ -1,0 +1,206 @@
+<section>
+  <div class="page-header">
+    <h4>{{vm.booking._id ? 'Edit Booking' : 'New Booking'}}</h4>
+  </div>
+
+    <form name="vm.form.bookingForm" class="form-horizontal" ng-submit="vm.save(vm.form.bookingForm.$valid)" novalidate>
+      <fieldset>
+
+    <div class="row">
+       <div class="col-sm-4">
+          <div class="form-group" show-errors>
+            <label class="control-label" for="name">Client</label>
+            <input name="name" type="text" ng-model="vm.booking.name" id="name" class="form-control" placeholder="Name" required>
+            <div ng-messages="vm.form.bookingForm.name.$error" role="alert">
+               <p class="help-block error-text" ng-message="required">Booking name is required.</p>
+            </div>
+          </div>
+
+          <div class="form-group" show-errors>
+               <label class="control-label" for="bookingdate">Date of Travel</label>
+               <input name="bookingdate" type ="text" date-picker ng-model="vm.booking.bookingdate" id="bookingdate" placeholder="mm/yy/yyyy" class="input-small form-control" required />
+                <div ng-messages="vm.form.bookingForm.bookingdate.$error" role="alert">
+                   <p class="help-block error-text" ng-message="required">Booking date is required.</p>
+                </div>
+          </div>
+
+        <div class="form-group" show-errors>
+            <label class="control-label" for="bookingservice">Service Type</label>
+          <select class="input-small form-control" data-ng-model="vm.booking.bookingservice" id="bookingservice" required>
+            <option value="Arrival">Arrival</option>
+            <option value="Departure">Departure</option>
+            <option value="Connection">Connection</option>
+            <option value="Other">Other</option>
+          </select>
+          <div ng-messages="vm.form.bookingForm.bookingservice.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Service Type is required.</p>
+          </div>
+        </div>
+
+        <!-- Noumber of Passengers -->
+      <div class="form-group" show-errors>              
+          <label class="control-label" for="passengers">Number of Passengers arriving</label>
+          <br />
+           <div class="col-xs-12">
+              <div class="col-xs-6">
+                  <small><label for="nofAdults">Adults</label></small>
+                  <input name="nofAdults" type="number" ng-model="vm.booking.nofAdults" id="nofAdults" class="form-control" required min="0" value="0">         
+              </div>
+              <div class="col-xs-6">
+                  <small><label for="nofChildren">Children</label></small>
+                  <input name="nofChildren" type="number" ng-model="vm.booking.nofChildren" id="nofChildren" class="form-control" required min="0" value="0">
+              </div>
+           </div>
+       </div>  <!--End of Number of Passengers -->
+
+       </div>  <!--End of left side -->
+
+ <!--Begin  right side -->
+ <div class="col-sm-8">  
+
+   <!--Pop up of Arrival Details on right side -->
+   <div class="col-sm-6 col-xs-12" ng-hide="!(vm.booking.bookingservice === 'Arrival')">       
+     <h4 class="highlight-text">Arrival Details</h4>
+  <!-- Flight No. -->
+       <div class="form-group col-xs-6" show-errors>
+          <label class="control-label" for="arrFlight">Flight Number</label>
+          <input name="arrFlight" type="text" ng-model="vm.booking.arrFlight" id="arrFlight" class="form-control" placeholder="" ng-required="(vm.booking.bookingservice === 'Arrival')">
+         <small class="help-text">e.g. WT123</small>
+          <div ng-messages="vm.form.bookingForm.arrFlight.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Arrival flight number is required.</p>
+          </div>
+       </div>
+ <!-- Flight No. -->
+       <div class="col-xs-6">  <!-- Flight Time -->
+          <label class="control-label" for="arrTime">Arrival Time</label>
+          <input name="arrTime" type="text" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"  id="arrTime" ng-model="vm.booking.arrTime" ng-required="(vm.booking.bookingservice === 'Arrival')">
+          <small class="help-text">HH:MM format only</small>
+           <div ng-messages="vm.form.bookingForm.arrTime.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Arrival Time is required.</p>
+          </div>                   
+        </div>  <!-- Flight No. -->
+
+             
+       <div class="form-group col-xs-12" show-errors>  <!-- Arrival Airport  -->
+          <label class="control-label" for="arrCity">Arrival Airport</label>
+          <input name="arrCity" type="text" ng-model="vm.booking.arrCity" id="arrCity" class="form-control" placeholder="" ng-required="(vm.booking.bookingservice === 'Arrival')">
+          <div ng-messages="vm.form.bookingForm.arrCity.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Service Location is required.</p>
+          </div>
+        </div>
+
+   </div>  <!-- End of Arrival Details on right side -->
+
+  <!--Pop up Departure Details on right side -->
+     <div class="col-sm-6 col-xs-12" ng-hide="!(vm.booking.bookingservice === 'Departure')">   
+     <h4 class="highlight-text">Departure Details</h4>
+ 
+        <div class="form-group col-xs-6" show-errors>
+          <label class="control-label" for="arrFlight">Flight Number</label>
+          <input name="arrFlight" type="text" ng-model="vm.booking.arrFlight" id="arrFlight" class="form-control" placeholder="" ng-required="(vm.booking.bookingservice === 'Departure')" />
+         <small class="help-text">e.g. WT123</small>
+          <div ng-messages="vm.form.bookingForm.arrFlight.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Departure flight number is required.</p>
+          </div>
+       </div>
+      
+       <div class="col-xs-6">  <!-- Flight Time -->
+          <label class="control-label" for="depTime">Departure Time</label>
+          <input name="depTime" type="text" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"  id="depTime" ng-model="vm.booking.depTime" ng-required="(vm.booking.bookingservice === 'Departure')" />
+          <small class="help-text">HH:MM format only</small>
+           <div ng-messages="vm.form.bookingForm.depTime.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Departure Time is required.</p>
+          </div>                   
+        </div>  <!-- Flight No. -->
+             
+       <div class="form-group col-xs-12" show-errors>  <!-- Departure Airport  -->
+          <label class="control-label" for="depCity">Departure Airport</label>
+          <input name="depCity" type="text" ng-model="vm.booking.depCity" id="depCity" class="form-control" placeholder="" ng-required="(vm.booking.bookingservice === 'Departure')" />
+          <div ng-messages="vm.form.bookingForm.depCity.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Service Location is required.</p>
+          </div>
+        </div>
+
+     </div>  <!-- End of  Departure Details on right side -->
+
+  <!--Pop up of Connection Details on right side -->
+    <div class="col-sm-6 col-xs-12" ng-hide="!(vm.booking.bookingservice === 'Connection')">   
+     <h4 class="highlight-text">Connection Details</h4>
+
+       <div class="form-group col-xs-6" show-errors>
+          <label class="control-label" for="arrFlight">Flight Number</label>
+          <input name="arrFlight" type="text" ng-model="vm.booking.arrFlight" id="arrFlight" class="form-control" placeholder="" />
+         <small class="help-text">e.g. WT123</small>
+          <div ng-messages="vm.form.bookingForm.arrFlight.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Arrival flight number is required.</p>
+          </div>
+       </div>
+       
+       <div class="col-xs-6">  <!-- Flight Time -->
+          <label class="control-label" for="arrTime">Arrival Time</label>
+          <input name="arrTime" type="ttext" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"  id="arrTime" ng-model="vm.booking.arrTime" ng-required="(vm.booking.bookingservice === 'Connection')" />
+          <small class="help-text">HH:MM format only</small>
+           <div ng-messages="vm.form.bookingForm.arrTime.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Arrival Time is required.</p>
+          </div>                   
+        </div>  <!-- Flight Time -->
+
+       <div class="form-group col-xs-12" show-errors>
+          <label class="control-label" for="arrCity">Connection Airport</label>
+          <input name="arrCity" type="text" ng-model="vm.booking.arrCity" id="arrCity" class="form-control" placeholder="" ng-required="(vm.booking.bookingservice === 'Connection')" />
+          <div ng-messages="vm.form.bookingForm.arrCity.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Service Location is required.</p>
+          </div>
+        </div>
+
+
+      <div class="form-group col-xs-6" show-errors>  <!-- Flight No. -->
+          <label class="control-label" for="depFlight">Flight Number</label>
+          <input name="depFlight" type="text" ng-model="vm.booking.depFlight" id="depFlight" class="form-control" placeholder="" ng-required="(vm.booking.bookingservice === 'Connection')" />
+         <small class="help-text">e.g. WT123</small>
+          <div ng-messages="vm.form.bookingForm.depFlight.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Departure flight number is required.</p>
+          </div>
+       </div>  <!-- Flight Time -->
+       
+       <div class="col-xs-6">  <!-- Flight Time -->
+          <label class="control-label" for="depTime">Departure Time</label>
+          <input name="depTime" type="text" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"  id="depTime" ng-model="vm.booking.depTime" ng-required="(vm.booking.bookingservice === 'Connection')">
+          <small class="help-text">HH:MM format only</small>
+           <div ng-messages="vm.form.bookingForm.depTime.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Departure Time is required.</p>
+          </div>                   
+        </div>  <!-- Flight No. -->
+
+
+
+       </div>  <!-- End of Connection Details on right side -->
+
+
+<!----------------------------------------------->
+
+      </div>
+    </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.booking._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+
+      </fieldset>
+    </form>
+
+<script type="text/javascript" >
+     $('#bookingdate').datepicker({
+        changeYear: true,
+        changeMonth: true,
+        minDate: "0",
+        yearRange: "-00:-00"
+        });
+</script>
+ </section>
+
+
+
